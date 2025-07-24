@@ -200,7 +200,11 @@ const LiveVideo: React.FC = () => {
       dispatch(setCameraMode({ mode: "Auto", preset: "", cameraIdTemp }));
     } else if (presets === "20") {
       dispatch(setCameraMode({ mode: "Manual", preset: "", cameraIdTemp }));
-    } else {
+    }
+    else if (presets === "30") {
+      dispatch(setCameraMode({ mode: "Scan360", preset: "", cameraIdTemp }));
+    }
+    else {
       dispatch(setCameraMode({ mode: "Preset", preset: presets, cameraIdTemp }));
     }
   }, [presets, camera]);
@@ -459,6 +463,9 @@ const LiveVideo: React.FC = () => {
                     } else if (selected === "20") {
                       return <span style={{ color: "#ff9800" }}>Manual</span>; // Orange text
                     }
+                    else if (selected === "30") {
+                      return <span style={{ color: "#ff9800" }}>Scan 360</span>; // Orange text
+                    }
                     return selectedItem ? selectedItem.name : "Select Presets";
                   }}
                   MenuProps={{
@@ -478,6 +485,8 @@ const LiveVideo: React.FC = () => {
                 >
                   <MenuItem value={"10"}>Auto</MenuItem>
                   <MenuItem value={"20"}>Manual</MenuItem>
+                  <MenuItem value={"30"}>Scan 360</MenuItem>
+
                   {listPresets &&
                     Array.isArray(listPresets) &&
                     listPresets
@@ -1091,6 +1100,11 @@ const LiveVideo: React.FC = () => {
                             <span style={{ color: "#ff9800" }}>Manual</span>
                           ); // Orange text
                         }
+                        else if (selected === "30") {
+                          return (
+                            <span style={{ color: "#ff9800" }}>Scan 360</span>
+                          ); // Orange text
+                        }
                         return selectedItem
                           ? selectedItem.name
                           : "Select Presets";
@@ -1112,6 +1126,7 @@ const LiveVideo: React.FC = () => {
                     >
                       <MenuItem value={"10"}>Auto</MenuItem>
                       <MenuItem value={"20"}>Manual</MenuItem>
+                      <MenuItem value={"30"}>Scan 360</MenuItem>
                       {listPresets &&
                         Array.isArray(listPresets) &&
                         listPresets
