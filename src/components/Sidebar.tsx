@@ -11,7 +11,8 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const [activeItem, setActiveItem] = useState<string>("");
-  const configUrl = "http://37.27.230.246:7200";
+  const configUrl = `${process.env.REACT_APP_API_CONFIG_URL}`;
+  console.log(configUrl,"configurl")
 
   const sideBarItems: SidebarItemProps[] = [
     { title: "Home", icon: homeIcon, link: "home" },

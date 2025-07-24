@@ -910,7 +910,7 @@ const Logs: React.FC<LogsProps> = ({ isPlaying, setIsPlaying }) => {
                 </Box>
 
                 <Box sx={{ marginTop: "25px", textAlign:"right"}}>
-                  <Button
+{/*                   <Button
                     sx={{
                       backgroundImage:
                         "radial-gradient(circle, #ffffff -89%, #FF7715 100%)",
@@ -924,7 +924,7 @@ const Logs: React.FC<LogsProps> = ({ isPlaying, setIsPlaying }) => {
                     }}
                   >
                     Create Ticket
-                  </Button>
+                  </Button> */}
                   <Button
                     sx={{
                       backgroundImage:
