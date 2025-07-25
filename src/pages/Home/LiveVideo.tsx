@@ -69,7 +69,7 @@ const LiveVideo: React.FC = () => {
 
   const [streamLinks, setStreamLinks] = useState({
     raw: "",
-    processed	: "",
+    processed: "",
   });
 
   const handleCloseLiveVideoModal = () => {
@@ -93,13 +93,11 @@ const LiveVideo: React.FC = () => {
     dispatch(fetchCameras());
   }, [dispatch]);
 
-
   useEffect(() => {
-  if (cameras.length > 0) {
-    setCameraIdTemp(cameras[0].id);
-  }
-}, [cameras]);
-
+    if (cameras.length > 0) {
+      setCameraIdTemp(cameras[0].id);
+    }
+  }, [cameras]);
 
   useEffect(() => {
     if (loadingCamera) {
@@ -118,14 +116,15 @@ const LiveVideo: React.FC = () => {
       dispatch(fetchStreamLinks(camId))
         .unwrap()
         .then((result) => {
-          console.log(result,"result")
-          setStreamLinks(result)})
+          console.log(result, "result");
+          setStreamLinks(result);
+        });
     }
     setPresets("20");
   }, [camera]);
 
   const joystickOptions = (key: string) => {
-    dispatch(changePTZPosition({key, cameraIdTemp})); // Dispatch Redux Thunk
+    dispatch(changePTZPosition({ key, cameraIdTemp })); // Dispatch Redux Thunk
 
     const stick = document.getElementById("stick");
     if (!stick) return;
@@ -200,19 +199,20 @@ const LiveVideo: React.FC = () => {
       dispatch(setCameraMode({ mode: "Auto", preset: "", cameraIdTemp }));
     } else if (presets === "20") {
       dispatch(setCameraMode({ mode: "Manual", preset: "", cameraIdTemp }));
-    }
-    else if (presets === "30") {
+    } else if (presets === "30") {
       dispatch(setCameraMode({ mode: "Scan360", preset: "", cameraIdTemp }));
-    }
-    else {
-      dispatch(setCameraMode({ mode: "Preset", preset: presets, cameraIdTemp }));
+    } else {
+      dispatch(
+        setCameraMode({ mode: "Preset", preset: presets, cameraIdTemp })
+      );
     }
   }, [presets, camera]);
 
-  const handleFullScreen=()=>{
-    console.log("hit double")
-    if( camera && typeof camera === "object"){ setOpenLiveVideoModal(true)}
-  }
+  const handleFullScreen = () => {
+    if (camera && typeof camera === "object") {
+      setOpenLiveVideoModal(true);
+    }
+  };
 
   return (
     <Box
@@ -241,25 +241,25 @@ const LiveVideo: React.FC = () => {
           </Typography>
         </Box>
       ) : camera && typeof camera === "object" && !checked ? (
-<div
+        <div
           style={{ height: "100%", position: "relative" }}
           className="hoverShow"
         >
-          {streamLinks.raw&&
-                     <iframe
-                       src={streamLinks.raw}
-                       style={{
-                         width: "100%",
-                         height: "99%",
-                         // borderRadius: "10px",
-                         // border: "3px solid red",
-                       }}
-                       title=""
-                     ></iframe>
-          }
+          {streamLinks.raw && (
+            <iframe
+              src={streamLinks.raw}
+              style={{
+                width: "100%",
+                height: "99%",
+                // borderRadius: "10px",
+                // border: "3px solid red",
+              }}
+              title=""
+            ></iframe>
+          )}
         </div>
       ) : camera && typeof camera === "object" && checked ? (
-<div
+        <div
           style={{ height: "100%", position: "relative" }}
           className="hoverShow"
         >
@@ -294,115 +294,116 @@ const LiveVideo: React.FC = () => {
           Select a Camera
         </div>
       )}
-<Box className="HoverView" style={{
+      <Box
+        className="HoverView"
+        style={{
           position: "absolute",
           top: "0",
           height: "100%",
           /* background: red; */
           width: "100%",
-        }}>
-      <Box
-        sx={{ position: "absolute", top: "5px", zIndex: "9", width: "100%" }}
-        
+        }}
       >
         <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+          sx={{ position: "absolute", top: "5px", zIndex: "9", width: "100%" }}
         >
-          <Box sx={{ display: "flex", gap: "5px" }}>
-            <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
-              <Select
-                labelId="demo-select-small-label"
-                id="demo-select-small"
-                value={camera}
-                label="Select Camera"
-                onChange={(e) => {
-                  handleChange(e);
-                  setLoadingCamera(true);
-                }}
-                sx={{
-                  width: "200px",
-                  height: "38px",
-                  background: "#162232",
-                  border: "none",
-                  "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                  "& .MuiSelect-select": {
-                    fontSize: "14px",
-                    color: "#ffffff",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  },
-                  "& .MuiSelect-icon": { color: "#ffffff" },
-                }}
-                MenuProps={{
-                  PaperProps: {
-                    sx: {
-                      background: "#162232",
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ display: "flex", gap: "5px" }}>
+              <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
+                <Select
+                  labelId="demo-select-small-label"
+                  id="demo-select-small"
+                  value={camera}
+                  label="Select Camera"
+                  onChange={(e) => {
+                    handleChange(e);
+                    setLoadingCamera(true);
+                  }}
+                  sx={{
+                    width: "200px",
+                    height: "38px",
+                    background: "#162232",
+                    border: "none",
+                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                    "& .MuiSelect-select": {
+                      fontSize: "14px",
                       color: "#ffffff",
-                      maxHeight: 200, // Fixed height for scroll
-                      overflowY: "auto",
-                      "& .MuiMenuItem-root": {
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    },
+                    "& .MuiSelect-icon": { color: "#ffffff" },
+                  }}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: {
+                        background: "#162232",
                         color: "#ffffff",
-                        "&:hover": { backgroundColor: "#1e293b" }, // Darker blue on hover
+                        maxHeight: 200, // Fixed height for scroll
+                        overflowY: "auto",
+                        "& .MuiMenuItem-root": {
+                          color: "#ffffff",
+                          "&:hover": { backgroundColor: "#1e293b" }, // Darker blue on hover
+                        },
                       },
                     },
-                  },
-                }}
-              >
-                <MenuItem key={1} value="" disabled>
-                  --Select Camera--
-                </MenuItem>
-                {cameras.map((camera) => (
-                  <MenuItem key={camera.id} value={camera}>
-                    {/* ✅ Use camera.id instead of object */}
-                    {camera.name}
+                  }}
+                >
+                  <MenuItem key={1} value="" disabled>
+                    --Select Camera--
                   </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            {camera && typeof camera === "object" ? (
-              <FormControl
-                sx={{ m: 1, minWidth: 200 }}
-                size="small"
-                onDoubleClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-              >
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checked}
-                      onChange={(e) => {
-                        handleCheckboxChange(e);
-                        setLoadingCamera(true);
-                      }}
-                      sx={{
-                        color: "#ffffff",
-                        "&.Mui-checked": {
-                          color: "#ffffff",
-                        },
-                      }}
-                    />
-                  }
-                  label={
-                    <span style={{ color: "#ffffff", fontSize: "14px" }}>
-                      Show Detection
-                    </span>
-                  }
-                />
+                  {cameras.map((camera) => (
+                    <MenuItem key={camera.id} value={camera}>
+                      {camera.name}
+                    </MenuItem>
+                  ))}
+                </Select>
               </FormControl>
-            ) : (
-              ""
-            )}
-          </Box>
-          {camera && typeof camera === "object" ? (
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              {/* <FormControl size="small">
+              {camera && typeof camera === "object" ? (
+                <FormControl
+                  sx={{ m: 1, minWidth: 200 }}
+                  size="small"
+                  onDoubleClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                >
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={checked}
+                        onChange={(e) => {
+                          handleCheckboxChange(e);
+                          setLoadingCamera(true);
+                        }}
+                        sx={{
+                          color: "#ffffff",
+                          "&.Mui-checked": {
+                            color: "#ffffff",
+                          },
+                        }}
+                      />
+                    }
+                    label={
+                      <span style={{ color: "#ffffff", fontSize: "14px" }}>
+                        Show Detection
+                      </span>
+                    }
+                  />
+                </FormControl>
+              ) : (
+                ""
+              )}
+            </Box>
+            {camera && typeof camera === "object" ? (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                {/* <FormControl size="small">
               <input
                 type="checkbox"
                 className="checkbox-as-radio"
@@ -411,8 +412,8 @@ const LiveVideo: React.FC = () => {
                 onChange={handleRadioChange}
               ></input>
             </FormControl> */}
-              <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
-                {/* <InputLabel
+                <FormControl sx={{ m: 1, minWidth: 100 }} size="small">
+                  {/* <InputLabel
                   id="demo-select-small-label"
                   sx={{
                     color: "#ffffff", // Default color
@@ -428,87 +429,89 @@ const LiveVideo: React.FC = () => {
                   Preset
                 </InputLabel> */}
 
-                <Select
-                  labelId="demo-select-small-label"
-                  id="demo-select-small"
-                  value={presets}
-                  label="Select Presets"
-                  onChange={handleChangePresets}
-                  sx={{
-                    width: "200px",
-                    height: "38px",
-                    background:
-                      presets === "10"
-                        ? "#004d40"
-                        : presets === "20"
-                        ? "#b71c1c"
-                        : "#162232", // Green for Auto, Red for Manual
-                    border: "none",
-                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                    "& .MuiSelect-select": {
-                      fontSize: "14px",
-                      color: "#ffffff",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    },
-                    "& .MuiSelect-icon": { color: "#ffffff" },
-                  }}
-                  renderValue={(selected) => {
-                    const selectedItem = listPresets?.find(
-                      (preset) => preset.id === selected
-                    );
-                    if (selected === "10") {
-                      return <span style={{ color: "#00ff00" }}>Auto</span>; // Green text
-                    } else if (selected === "20") {
-                      return <span style={{ color: "#ff9800" }}>Manual</span>; // Orange text
-                    }
-                    else if (selected === "30") {
-                      return <span style={{ color: "#ff9800" }}>Scan 360</span>; // Orange text
-                    }
-                    return selectedItem ? selectedItem.name : "Select Presets";
-                  }}
-                  MenuProps={{
-                    PaperProps: {
-                      sx: {
-                        background: "#162232",
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={presets}
+                    label="Select Presets"
+                    onChange={handleChangePresets}
+                    sx={{
+                      width: "200px",
+                      height: "38px",
+                      background:
+                        presets === "10"
+                          ? "#004d40"
+                          : presets === "20"
+                          ? "#b71c1c"
+                          : "#162232", // Green for Auto, Red for Manual
+                      border: "none",
+                      "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                      "& .MuiSelect-select": {
+                        fontSize: "14px",
                         color: "#ffffff",
-                        maxHeight: 200,
-                        overflowY: "auto",
-                        "& .MuiMenuItem-root": {
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      },
+                      "& .MuiSelect-icon": { color: "#ffffff" },
+                    }}
+                    renderValue={(selected) => {
+                      const selectedItem = listPresets?.find(
+                        (preset) => preset.id === selected
+                      );
+                      if (selected === "10") {
+                        return <span style={{ color: "#00ff00" }}>Auto</span>; // Green text
+                      } else if (selected === "20") {
+                        return <span style={{ color: "#ff9800" }}>Manual</span>; // Orange text
+                      } else if (selected === "30") {
+                        return (
+                          <span style={{ color: "#ff9800" }}>Scan 360</span>
+                        ); // Orange text
+                      }
+                      return selectedItem
+                        ? selectedItem.name
+                        : "Select Presets";
+                    }}
+                    MenuProps={{
+                      PaperProps: {
+                        sx: {
+                          background: "#162232",
                           color: "#ffffff",
-                          "&:hover": { backgroundColor: "#1e293b" },
+                          maxHeight: 200,
+                          overflowY: "auto",
+                          "& .MuiMenuItem-root": {
+                            color: "#ffffff",
+                            "&:hover": { backgroundColor: "#1e293b" },
+                          },
                         },
                       },
-                    },
-                  }}
-                >
-                  <MenuItem value={"10"}>Auto</MenuItem>
-                  <MenuItem value={"20"}>Manual</MenuItem>
-                  <MenuItem value={"30"}>Scan 360</MenuItem>
+                    }}
+                  >
+                    <MenuItem value={"10"}>Auto</MenuItem>
+                    <MenuItem value={"20"}>Manual</MenuItem>
+                    <MenuItem value={"30"}>Scan 360</MenuItem>
 
-                  {listPresets &&
-                    Array.isArray(listPresets) &&
-                    listPresets
-                      .filter((preset) => {
-                        const cameraIdFromConnection = camera?.connectionString
-                          ?.split("/")
-                          .pop();
-                        return preset.cameraId === cameraIdFromConnection;
-                      })
-                      .map((preset) => (
-                        <MenuItem key={preset.id} value={preset.id}>
-                          {preset.name}
-                        </MenuItem>
-                      ))}
-                </Select>
-              </FormControl>
-            </Box>
-          ) : (
-            ""
-          )}
-        </Box>
-        {/* <Box>
+                    {listPresets &&
+                      Array.isArray(listPresets) &&
+                      listPresets
+                        .filter((preset) => {
+                          const cameraIdFromConnection =
+                            camera?.connectionString?.split("/").pop();
+                          return preset.cameraId === cameraIdFromConnection;
+                        })
+                        .map((preset) => (
+                          <MenuItem key={preset.id} value={preset.id}>
+                            {preset.name}
+                          </MenuItem>
+                        ))}
+                  </Select>
+                </FormControl>
+              </Box>
+            ) : (
+              ""
+            )}
+          </Box>
+          {/* <Box>
           <Box
             sx={{
               width: "fit-content",
@@ -531,26 +534,26 @@ const LiveVideo: React.FC = () => {
             </Box>
           </Box>
         </Box> */}
-      </Box>
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: "10px",
-          left: "10px",
-          width: "98%",
-        }}
-        // className="HoverView"
-      >
+        </Box>
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
+            position: "absolute",
+            bottom: "10px",
+            left: "10px",
+            width: "98%",
           }}
+          // className="HoverView"
         >
-          <Typography
-            sx={{ color: "white", fontSize: "16px", alignSelf: "end" }}
-          ></Typography>
-          {/* <Box sx={{ background: "#0000006e" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography
+              sx={{ color: "white", fontSize: "16px", alignSelf: "end" }}
+            ></Typography>
+            {/* <Box sx={{ background: "#0000006e" }}>
             <Button
               sx={{ display: "block", justifySelf: "center", lineHeight: "0" }}
             >
@@ -572,72 +575,41 @@ const LiveVideo: React.FC = () => {
               <KeyboardArrowDownIcon sx={{ color: "white" }} />
             </Button>
           </Box> */}
-          {camera && typeof camera === "object" && presets === "20" ? (
-            <Box>
-              <div
-                className="joystick-container"
-                onDoubleClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-              >
-                <div className="joystick">
-                  <Typography
-                    className="button top"
-                    sx={{
-                      position: "absolute",
-                      left: "38%",
-                      top: "-12px",
-                      zIndex: "9",
-                      height: "10px",
-                      padding: "15px",
-                      margin: "-15px",
-                      background: "transparent",
-                      paddingBottom: "40px",
-                      cursor: "pointer", // Add pointer cursor
-                      "&:hover": {
-                        backgroundColor: "rgba(255, 180, 180, 0.3)",
-                      },
-                      "&:active": {
-                        // Optional: add an active/click effect
-                        transform: "scale(0.95)",
-                      },
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      joystickOptions("w");
-                      setPresets("20");
-                    }}
-                  >
-                    <img src={arrow} alt="uparrow" style={{ height: "10px" }} />
-                  </Typography>
-
-                  <div className="buttons-row">
-                    {/* Left Button */}
+            {camera && typeof camera === "object" && presets === "20" ? (
+              <Box>
+                <div
+                  className="joystick-container"
+                  onDoubleClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                >
+                  <div className="joystick">
                     <Typography
-                      className="button left"
+                      className="button top"
                       sx={{
-                        transform: "rotate(-90deg)",
                         position: "absolute",
-                        left: "-14px",
-                        top: "41%",
+                        left: "38%",
+                        top: "-12px",
                         zIndex: "9",
-                        padding: "15px", // Extends clickable area
-                        margin: "-15px", // Compensates for padding
+                        height: "10px",
+                        padding: "15px",
+                        margin: "-15px",
                         background: "transparent",
+                        paddingBottom: "40px",
+                        cursor: "pointer", // Add pointer cursor
                         "&:hover": {
                           backgroundColor: "rgba(255, 180, 180, 0.3)",
                         },
                         "&:active": {
                           // Optional: add an active/click effect
                           transform: "scale(0.95)",
-                        }, // Makes the extended area transparent
+                        },
                       }}
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        joystickOptions("a");
+                        joystickOptions("w");
                         setPresets("20");
                       }}
                     >
@@ -648,27 +620,97 @@ const LiveVideo: React.FC = () => {
                       />
                     </Typography>
 
-                    {/* Center Area */}
-                    <div className="joystick-center">
-                      <div id="border">
-                        <div id="inner">
-                          <p id="n">N</p>
-                          <p id="s"></p>
-                          <p id="e"></p>
-                          <p id="w"></p>
-                          <div id="stick"></div>
+                    <div className="buttons-row">
+                      {/* Left Button */}
+                      <Typography
+                        className="button left"
+                        sx={{
+                          transform: "rotate(-90deg)",
+                          position: "absolute",
+                          left: "-14px",
+                          top: "41%",
+                          zIndex: "9",
+                          padding: "15px", // Extends clickable area
+                          margin: "-15px", // Compensates for padding
+                          background: "transparent",
+                          "&:hover": {
+                            backgroundColor: "rgba(255, 180, 180, 0.3)",
+                          },
+                          "&:active": {
+                            // Optional: add an active/click effect
+                            transform: "scale(0.95)",
+                          }, // Makes the extended area transparent
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          joystickOptions("a");
+                          setPresets("20");
+                        }}
+                      >
+                        <img
+                          src={arrow}
+                          alt="uparrow"
+                          style={{ height: "10px" }}
+                        />
+                      </Typography>
+
+                      {/* Center Area */}
+                      <div className="joystick-center">
+                        <div id="border">
+                          <div id="inner">
+                            <p id="n">N</p>
+                            <p id="s"></p>
+                            <p id="e"></p>
+                            <p id="w"></p>
+                            <div id="stick"></div>
+                          </div>
                         </div>
                       </div>
+
+                      {/* Right Button */}
+                      <Typography
+                        className="button right"
+                        sx={{
+                          transform: "rotate(90deg)",
+                          position: "absolute",
+                          right: "-14px",
+                          top: "41%",
+                          zIndex: "9",
+                          padding: "15px", // Extends clickable area
+                          margin: "-15px", // Compensates for padding
+                          background: "transparent", // Makes the extended area transparent
+                          "&:hover": {
+                            backgroundColor: "rgba(255, 180, 180, 0.3)",
+                          },
+                          "&:active": {
+                            // Optional: add an active/click effect
+                            transform: "scale(0.95)",
+                          }, // Makes the extended area transparent
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          joystickOptions("d");
+                          setPresets("20");
+                        }}
+                      >
+                        <img
+                          src={arrow}
+                          alt="uparrow"
+                          style={{ height: "10px" }}
+                        />
+                      </Typography>
                     </div>
 
-                    {/* Right Button */}
+                    {/* Bottom Button */}
                     <Typography
-                      className="button right"
+                      className="button bottom"
                       sx={{
-                        transform: "rotate(90deg)",
+                        transform: "rotate(-180deg)",
                         position: "absolute",
-                        right: "-14px",
-                        top: "41%",
+                        top: "93%",
+                        left: "37%",
                         zIndex: "9",
                         padding: "15px", // Extends clickable area
                         margin: "-15px", // Compensates for padding
@@ -684,7 +726,7 @@ const LiveVideo: React.FC = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        joystickOptions("d");
+                        joystickOptions("s");
                         setPresets("20");
                       }}
                     >
@@ -696,130 +738,99 @@ const LiveVideo: React.FC = () => {
                     </Typography>
                   </div>
 
-                  {/* Bottom Button */}
-                  <Typography
-                    className="button bottom"
-                    sx={{
-                      transform: "rotate(-180deg)",
-                      position: "absolute",
-                      top: "93%",
-                      left: "37%",
-                      zIndex: "9",
-                      padding: "15px", // Extends clickable area
-                      margin: "-15px", // Compensates for padding
-                      background: "transparent", // Makes the extended area transparent
-                      "&:hover": {
-                        backgroundColor: "rgba(255, 180, 180, 0.3)",
-                      },
-                      "&:active": {
-                        // Optional: add an active/click effect
-                        transform: "scale(0.95)",
-                      }, // Makes the extended area transparent
-                    }}
-                    onClick={(e) => {
+                  {/* Reset button positioned in center */}
+                  <div className="reset-button-center">
+                    <RestartAltRoundedIcon
+                      sx={{
+                        color: "white",
+                        fontSize: "20px",
+                        cursor: "pointer",
+                        padding: "10px",
+                        transition: "transform 0.5s ease-in-out",
+                        "&:hover": {
+                          transform: "rotate(360deg)",
+                          backgroundColor: "rgba(255, 180, 180, 0.3)",
+                        },
+                        "&:active": {
+                          // Optional: add an active/click effect
+                          transform: "scale(0.95)",
+                        }, // Makes the extended area transparent
+                      }}
+                      onClick={() => {
+                        cameraReset();
+                        setPresets("20");
+                      }}
+                    />
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "8px",
+                    justifyContent: "center",
+                    paddingTop: "10px",
+                    // justifyContent: "space-evenly",
+                  }}
+                >
+                  <div
+                    onDoubleClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      joystickOptions("s");
-                      setPresets("20");
                     }}
                   >
-                    <img src={arrow} alt="uparrow" style={{ height: "10px" }} />
-                  </Typography>
+                    <AddRoundedIcon
+                      sx={{
+                        color: "white",
+                        fontSize: "20px",
+                        background: "black",
+                        borderRadius: "4px",
+                        padding: "4px",
+                        cursor: "pointer",
+                        border: "1px solid #000000",
+                        "&:hover": {
+                          border: "1px solid #ffffff8f",
+                        },
+                      }}
+                      onClick={() => {
+                        joystickOptions("z");
+                        setPresets("20");
+                      }}
+                    />
+                  </div>
+                  <div
+                    onDoubleClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
+                    <RemoveRoundedIcon
+                      sx={{
+                        color: "white",
+                        fontSize: "20px",
+                        background: "black",
+                        borderRadius: "4px",
+                        padding: "4px",
+                        cursor: "pointer",
+                        border: "1px solid #000000",
+                        "&:hover": {
+                          border: "1px solid #ffffff8f",
+                        },
+                      }}
+                      onClick={() => {
+                        joystickOptions("x");
+                        setPresets("20");
+                      }}
+                    />
+                  </div>
                 </div>
-
-                {/* Reset button positioned in center */}
-                <div className="reset-button-center">
-                  <RestartAltRoundedIcon
-                    sx={{
-                      color: "white",
-                      fontSize: "20px",
-                      cursor: "pointer",
-                      padding: "10px",
-                      transition: "transform 0.5s ease-in-out",
-                      "&:hover": {
-                        transform: "rotate(360deg)",
-                        backgroundColor: "rgba(255, 180, 180, 0.3)",
-                      },
-                      "&:active": {
-                        // Optional: add an active/click effect
-                        transform: "scale(0.95)",
-                      }, // Makes the extended area transparent
-                    }}
-                    onClick={() => {
-                      cameraReset();
-                      setPresets("20");
-                    }}
-                  />
-                </div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "8px",
-                  justifyContent: "center",
-                  paddingTop: "10px",
-                  // justifyContent: "space-evenly",
-                }}
-              >
-                <div
-                  onDoubleClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                >
-                  <AddRoundedIcon
-                    sx={{
-                      color: "white",
-                      fontSize: "20px",
-                      background: "black",
-                      borderRadius: "4px",
-                      padding: "4px",
-                      cursor: "pointer",
-                      border: "1px solid #000000",
-                      "&:hover": {
-                        border: "1px solid #ffffff8f",
-                      },
-                    }}
-                    onClick={() => {
-                      joystickOptions("z");
-                      setPresets("20");
-                    }}
-                  />
-                </div>
-                <div
-                  onDoubleClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                >
-                  <RemoveRoundedIcon
-                    sx={{
-                      color: "white",
-                      fontSize: "20px",
-                      background: "black",
-                      borderRadius: "4px",
-                      padding: "4px",
-                      cursor: "pointer",
-                      border: "1px solid #000000",
-                      "&:hover": {
-                        border: "1px solid #ffffff8f",
-                      },
-                    }}
-                    onClick={() => {
-                      joystickOptions("x");
-                      setPresets("20");
-                    }}
-                  />
-                </div>
-              </div>
-            </Box>
-          ) : (
-            ""
-          )}
+              </Box>
+            ) : (
+              ""
+            )}
+          </Box>
         </Box>
       </Box>
-</Box>
-      
+
       <Modal
         open={openLiveVideoModal}
         onClose={handleCloseLiveVideoModal}
@@ -859,34 +870,36 @@ const LiveVideo: React.FC = () => {
             </Box>
           ) : camera && typeof camera === "object" && !checked ? (
             <div
-          style={{ height: "100%", position: "relative" }}
-          className="hoverShow"
-        >
-            <iframe
-            src={streamLinks.raw}
-            style={{
-              width: "100%",
-              height: "99%",
-              // borderRadius: "10px",
-              // border: "3px solid red",
-            }}
-            title=""
-          ></iframe></div>
+              style={{ height: "100%", position: "relative" }}
+              className="hoverShow"
+            >
+              <iframe
+                src={streamLinks.raw}
+                style={{
+                  width: "100%",
+                  height: "99%",
+                  // borderRadius: "10px",
+                  // border: "3px solid red",
+                }}
+                title=""
+              ></iframe>
+            </div>
           ) : camera && typeof camera === "object" && checked ? (
             <div
-          style={{ height: "100%", position: "relative" }}
-          className="hoverShow"
-        >
-            <iframe
-            src={streamLinks.processed}
-            style={{
-              width: "100%",
-              height: "99%",
-              // borderRadius: "10px",
-              // border: "3px solid red",
-            }}
-            title=""
-          ></iframe></div>
+              style={{ height: "100%", position: "relative" }}
+              className="hoverShow"
+            >
+              <iframe
+                src={streamLinks.processed}
+                style={{
+                  width: "100%",
+                  height: "99%",
+                  // borderRadius: "10px",
+                  // border: "3px solid red",
+                }}
+                title=""
+              ></iframe>
+            </div>
           ) : (
             <div
               id="camera-placeholder"
@@ -1099,8 +1112,7 @@ const LiveVideo: React.FC = () => {
                           return (
                             <span style={{ color: "#ff9800" }}>Manual</span>
                           ); // Orange text
-                        }
-                        else if (selected === "30") {
+                        } else if (selected === "30") {
                           return (
                             <span style={{ color: "#ff9800" }}>Scan 360</span>
                           ); // Orange text

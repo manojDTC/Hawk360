@@ -109,7 +109,6 @@ const CustomModal: React.FC<CustomModalProps> = ({
   const handleClose = () => {
     setOpenTicket(false);
     setErrors({});
-
   };
 
   const changeStatus = (event: SelectChangeEvent<string>) => {
@@ -124,23 +123,25 @@ const CustomModal: React.FC<CustomModalProps> = ({
   );
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   useEffect(() => {
-    dispatch(fetchLocations());
-    dispatch(fetchUsersList());
-    dispatch(fetchAnimals());
-    dispatch(fetchCameras());
-    dispatch(fetchTicket())
-      .unwrap()
-      .then((tickets) => {
-        setTicketLength(tickets.length);
-        if (tickets.length > 0) {
-          dispatch(fetchMessages(tickets[0].ticketId));
-          setSelectedTicket(tickets[0]); // Update when tickets are loaded
-        }
-      })
-      .catch((error) => {
-        //  setMessage("Failed to load tickets.");
-        toast.error("Error fetching tickets:", error);
-      });
+    if (openTicket) {
+      dispatch(fetchLocations());
+      dispatch(fetchUsersList());
+      dispatch(fetchAnimals());
+      dispatch(fetchCameras());
+      dispatch(fetchTicket())
+        .unwrap()
+        .then((tickets) => {
+          setTicketLength(tickets.length);
+          if (tickets.length > 0) {
+            dispatch(fetchMessages(tickets[0].ticketId));
+            setSelectedTicket(tickets[0]); // Update when tickets are loaded
+          }
+        })
+        .catch((error) => {
+          //  setMessage("Failed to load tickets.");
+          toast.error("Error fetching tickets:", error);
+        });
+    }
   }, [dispatch]);
 
   const createTicket = () => {
@@ -173,18 +174,18 @@ const CustomModal: React.FC<CustomModalProps> = ({
     formData.append("CameraId", newTicket.CameraId);
     formData.append("Type", newTicket.Type);
     formData.append("Remark", newTicket.Remark);
-     if (newTicket.File) {
-       formData.append("File", newTicket.File);
-     }
+    if (newTicket.File) {
+      formData.append("File", newTicket.File);
+    }
 
     // const data = {
-      // Title: newTicket.Title,
-      // AnimalId: newTicket.AnimalId,
-      // AreaId: newTicket.AreaId,
-      // MemberId: newTicket.MemberId,
-      // CameraId: newTicket.CameraId,
-      // Type: newTicket.Type,
-      // Remark: newTicket.Remark,
+    // Title: newTicket.Title,
+    // AnimalId: newTicket.AnimalId,
+    // AreaId: newTicket.AreaId,
+    // MemberId: newTicket.MemberId,
+    // CameraId: newTicket.CameraId,
+    // Type: newTicket.Type,
+    // Remark: newTicket.Remark,
     // }
 
     setOpenTicket(false);
@@ -210,7 +211,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
       })
       .catch((error) => {
         //  setMessage("Failed to load tickets.");
-        toast.error("Error fetching tickets:", error);
+        toast.error("Error fetching tickets:", error.message);
       });
   };
 
@@ -421,7 +422,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
                 borderBottom:
                   selectedAnimal?.alert?.toLowerCase() == "no helmet"
                     ? // selectedAnimal?.alert?.toLocaleLowerCase() == "no helmet"
-                    "20px solid #FF3627"
+                      "20px solid #FF3627"
                     : "20px solid #6FD195",
                 // borderBottom: "20px solid #FF3627", // Creates downward arrow
               }}
@@ -455,8 +456,8 @@ const CustomModal: React.FC<CustomModalProps> = ({
                     borderRadius: "50%",
                     backgroundColor:
                       selectedAnimal &&
-                        typeof selectedAnimal === "object" &&
-                        selectedAnimal?.color
+                      typeof selectedAnimal === "object" &&
+                      selectedAnimal?.color
                         ? selectedAnimal.color
                         : "transparent", // Default fallback color
 
@@ -480,7 +481,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
               >
                 {selectedAnimal?.alert?.toLowerCase() == "no helmet"
                   ? // selectedAnimal?.alert == "Checkpost Crossing"
-                  "Alert"
+                    "Alert"
                   : "Log"}
               </Button>
             </Box>
